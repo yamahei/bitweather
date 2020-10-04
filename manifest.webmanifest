@@ -1,0 +1,14 @@
+{
+    "name": "Bit Weather",
+    "short_name": "bitweather",
+    "theme_color": "#f84",
+    "background_color": "#fff",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/index.html",
+    "icons": [{
+        "src": "/img/logo.png",
+        "sizes": "24x24",
+        "type": "image/png"
+    }]
+}

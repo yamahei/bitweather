@@ -96,8 +96,7 @@ html, body, pre, code, kbd, samp {
 *[ui='large_weather'] {}
 
 /* Weather(s) - Small Weather Block */
-*[ui='small_weather'] {
-}
+*[ui='small_weather'] {}
 
 
 /* Weather(s) - Weather Block Parts of Now */
@@ -146,7 +145,7 @@ html, body, pre, code, kbd, samp {
 /* Weather(s) - Weather Block Parts of 5Days */
 *[ui='weather_info_5days'] {
     clear: both;
-    margin-top: 3rem;
+    padding-top: 3rem;
 }
 *[ui='weather_info_5days'] > *[ui='todays'] {
     display: grid;
