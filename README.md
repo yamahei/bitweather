@@ -11,7 +11,7 @@ Bit Weather
 使い方
 ------
 
-* ブラウザで開いてください。
+* [ブラウザで開いてください。](https://yamahei.github.io/bitweather/)
 * [Open Weather](https://openweathermap.org/)のAPI Keyが必要です。（無料版で十分です。
 * 表示したい場所の郵便番号を設定します。
 
