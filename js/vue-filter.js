@@ -7,7 +7,7 @@
         const yo = date.getDay();
         const hi = date.getDate();
         const youbis = { '0': '日', '1': '月', '2': '火', '3': '水', '4': '木', '5': '金', '6': '土' };
-        return `${youbis[yo]} ${("0" + hi).slice(-2)}日`;
+        return `${youbis[yo]}${("0" + hi).slice(-2)}`;
     });
     
     g.Vue.filter('date_to_time', function (date) {//Date

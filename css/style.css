@@ -75,7 +75,7 @@ html, body, pre, code, kbd, samp {
 }
 *[ui='grid_container'] > * {
     margin: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 3rem;;
 }
 @media (min-width: 1021px) {/* PC */
     *[ui='grid_container'] { grid-template-columns: 1fr 1fr 1fr; }
@@ -94,32 +94,54 @@ html, body, pre, code, kbd, samp {
 *[ui='small_weather'] {
 }
 
+
 /* Weather(s) - Weather Block Parts of Now */
 *[ui='weather_info_now'] {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    margin-bottom: 3rem;
+}
+*[ui='weather_info_now'] > *[ui='image']{
+    float: left;
+    max-width: 100%;
+    min-width: 50%;
+}
+*[ui='weather_info_now'] > *[ui='image'] img{
+    width: 100%;
+    object-fit: contain;
+    margin-top: -60px;
+    z-index: -1;
 }
 
-*[ui='weather_info_now'] *[ui='image'] img {
-    object-fit: contain;
-    width: 100%;
-}
-/* *[ui='weather_info_now'] p[ui='main_info'] {
-    font-size: 2rem;
-} */
-*[ui='weather_info_now'] dl[ui='sub_info'] > dt{
-    width: 6rem;
-    text-align: right;
-    white-space: nowrap;
+*[ui='weather_info_now'] > *[ui='weather'] {
     float: left;
 }
-*[ui='weather_info_now'] dl[ui='sub_info'] > dd{
-    margin-left: 6rem;
-    padding-left: 1rem;
+*[ui='weather_info_now'] > *[ui='weather'] > table {
+    margin-left: auto;
+    margin-right: 5%;
+}
+*[ui='weather_info_now'] > *[ui='weather'] > table th {
+    margin: 0; padding: 0;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    vertical-align: top;
+    text-align: right;
+    white-space: nowrap;
+}
+*[ui='weather_info_now'] > *[ui='weather'] > table tr {
+    margin: 0; padding: 0;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    vertical-align: top;
+    text-align: left;
+    white-space: nowrap;
 }
 
+
+
 /* Weather(s) - Weather Block Parts of 5Days */
-*[ui='weather_info_5days'] {}
+*[ui='weather_info_5days'] {
+    clear: both;
+    margin-top: 3rem;
+}
 *[ui='weather_info_5days'] > *[ui='todays'] {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -160,4 +182,6 @@ html, body, pre, code, kbd, samp {
     display: inline;
     padding: 1rem;
 }
+
+
 

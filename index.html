@@ -36,46 +36,64 @@
     <div ui="page">
         <div ui="grid_container" v-if="render_flg">
             <div ui="large_weather" weather="weather" v-for="weather in weather_l">
-                <div class="nes-container with-title">
-                    <p class="title">{{ weather | weather_to_location }}</p>
-        
+                <div class="_nes-container with-title">
+                    <!-- <p class="title">{{ weather | weather_to_location }}</p> -->
+                    <h1>[{{ weather | weather_to_location }}]</h1>
+
                     <div ui="weather_info_now" v-if="is_now_loaded(weather)">
                         <div ui="image">
                             <img :src="weather.now.weather[0].icon | iconid_to_url"/>
                         </div>
-                        <div>
-                            <h2>
-                                {{ weather.now.weather[0].description | nodot_kanji_to_kana }}
-                            </h2>
-                            <dl ui="sub_info">
-                                <dt>きおん:</dt>
-                                <dd>{{ weather.now.main.temp }} {{ temp_unit }}</dd>
-                                <dt>たいかん:</dt>
-                                <dd>{{ weather.now.main.feels_like }} {{ temp_unit }}</dd>
-                                <dt>しつど:</dt>
-                                <dd>{{ weather.now.main.humidity }} %</dd>
+                        <div ui="weather">
+                            <table>
+                                <tr>
+                                    <td colspan="2">
+                                        <h2>{{ weather.now.weather[0].description | nodot_kanji_to_kana }}</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>きおん:</th>
+                                    <td>{{ weather.now.main.temp }} {{ temp_unit }}</td>
+                                </tr>
+                                <tr>
+                                    <th>たいかん:</th>
+                                    <td>{{ weather.now.main.feels_like }} {{ temp_unit }}</td>
+                                </tr>
+                                <tr>
+                                    <th>しつど:</th>
+                                    <td>{{ weather.now.main.humidity }} %</td>
+                                </tr>
                                 <template v-if="weather.now.wind">
-                                    <dt>かぜ:</dt>
-                                    <dd>
-                                        {{ weather.now.wind.deg | deg_to_dir }}
-                                        {{ weather.now.wind.speed }} m/s
-                                    </dd>
+                                    <tr>
+                                        <th>かぜ:</th>
+                                        <td>
+                                            {{ weather.now.wind.deg | deg_to_dir }}
+                                            {{ weather.now.wind.speed }} m/s    
+                                        </td>
+                                    </tr>
                                 </template>
                                 <template v-if="weather.now.rain">
-                                    <dt>こうすい:</dt>
-                                    <dd>{{ weather.now.rain["1h"] }} mm/h</dd>    
+                                    <tr>
+                                        <th>こうすい:</th>
+                                        <td>{{ weather.now.rain["1h"] }} mm/h</td>
+                                    </tr>
                                 </template>
                                 <template v-if="weather.now.snow">
-                                    <dt>せきせつ:</dt>
-                                    <dd>{{ weather.now.snow["1h"] }} mm/h</dd>
+                                    <tr>
+                                        <th>せきせつ:</th>
+                                        <td>{{ weather.now.snow["1h"] }} mm/h</td>
+                                    </tr>
                                 </template>
-                                <dt>きあつ:</dt>
-                                <dd>{{ weather.now.main.pressure }} hpa</dd>
-                            </dl>
+                                <tr>
+                                    <th>きあつ:</th>
+                                    <td>{{ weather.now.main.pressure }} hpa</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <div v-else>Loading...</div>
-        
+
+                    
                     <div ui="weather_info_5days" v-if="is_vdays_loaded(weather)">
                         <h3>今日のてんき</h3>
                         <div ui="todays">
