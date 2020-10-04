@@ -1,0 +1,163 @@
+/* Font */
+@font-face {
+	font-family: 'NuMochi';
+	src: url(../font/NuKinakoMochi-Reg.otf);
+}
+@font-face {
+    font-family: 'PressStart';
+    src: url(../font/PressStart2P-Regular.ttf);
+  }
+html, body, pre, code, kbd, samp {
+    font-family: 'NuMochi', 'PressStart';
+    image-rendering: pixelated;
+}
+
+/* Scroll */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 50, .5);
+  border-radius: 6px;
+  box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
+}
+
+/* UI */
+*[ui='header']{
+    /* position: absolute;
+    top: 0; left: 0; right: 0; */
+    width: 100%;
+    margin: 0;
+    padding: 4px;
+}
+
+
+*[ui='page']{
+    margin: 0;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+*[ui='dialog'] {
+    position: absolute;
+    left: 0;right: 0;
+    top: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+*[ui='dialog'] > * {
+    position: absolute;
+    left: 0;right: 0;
+    top: 0; bottom: 0;
+    display: block;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: -webkit-fit-content;
+    height: fit-content;
+    padding: 1em;
+    margin: auto;
+    color: #000;
+    background: #fff;
+    border: solid;
+}
+*[ui='dialog']::after, *[ui='dialog']::before {
+    box-sizing: border-box;
+}
+
+/* Weather(s) - Container */
+*[ui='grid_container'] {
+    display: grid;
+}
+*[ui='grid_container'] > * {
+    margin: 10px;
+    margin-bottom: 20px;
+}
+@media (min-width: 1021px) {/* PC */
+    *[ui='grid_container'] { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 1020px) and (min-width: 768px) {/* tablet */
+    *[ui='grid_container'] { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 767px) {/* smart phone */
+    *[ui='grid_container'] { grid-template-columns: 1fr; }
+}
+
+/* Weather(s) - Large Weather Block */
+*[ui='large_weather'] {}
+
+/* Weather(s) - Small Weather Block */
+*[ui='small_weather'] {
+}
+
+/* Weather(s) - Weather Block Parts of Now */
+*[ui='weather_info_now'] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+*[ui='weather_info_now'] *[ui='image'] img {
+    object-fit: contain;
+    width: 100%;
+}
+/* *[ui='weather_info_now'] p[ui='main_info'] {
+    font-size: 2rem;
+} */
+*[ui='weather_info_now'] dl[ui='sub_info'] > dt{
+    width: 6rem;
+    text-align: right;
+    white-space: nowrap;
+    float: left;
+}
+*[ui='weather_info_now'] dl[ui='sub_info'] > dd{
+    margin-left: 6rem;
+    padding-left: 1rem;
+}
+
+/* Weather(s) - Weather Block Parts of 5Days */
+*[ui='weather_info_5days'] {}
+*[ui='weather_info_5days'] > *[ui='todays'] {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+*[ui='weather_info_5days'] > *[ui='todays'] > *[ui='today'] {
+    text-align: center;
+}
+*[ui='weather_info_5days'] > *[ui='afters'] {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+*[ui='weather_info_5days'] > *[ui='afters'] > *[ui='after'] {
+    text-align: center;
+}
+
+
+/* Setting - Zipcode rows */
+*[ui='locate_row'] {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px 48px;
+}
+*[ui='locate_row'] > button[ui='to_delete']{
+    float: right;
+}
+*[ui='locate_row'] > *[ui='to_zipcode']{
+    margin: auto;
+    font-size: large;
+}
+*[ui='locate_row'] > button[ui='to_sort']{
+    float: right;
+}
+
+/* Panel */
+*[ui='panel'] {
+    text-align: right;
+}
+*[ui='panel'] > * {
+    display: inline;
+    padding: 1rem;
+}
+

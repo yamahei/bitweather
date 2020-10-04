@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bit Weather</title>
+    <link rel="icon" type="image/svg+xml" href="img/logo.png" />
+    <!-- <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> -->
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+
+<body>
+
+<!-- 
+    Components
+-->
+<script type="text/x-template" id="LOCATE_ROW_TEMPLATE">
+    <div ui="locate_row">
+        <button ui="to_delete" type="button" class="nes-btn is-error" @click="on_delete">×</button>
+        <p ui="to_zipcode" class="nes-text">{{ zipcode }}</p>
+        <button ui="to_sort" type="button" class="nes-btn is-primary" @click="on_downto">▽</button>
+        <button ui="to_sort" type="button" class="nes-btn is-primary" @click="on_upto">△</button>
+    </div>    
+</script>
+<script type="text/x-template" id="LARGE_WEATHER_TEMPLATE">
+</script>
+<script type="text/x-template" id="XXX_TEMPLATE">
+</script>
+
+<!-- 
+    Pages
+-->
+<script type="text/x-template" id="LIST_PAGE_TEMPLATE">
+    <div ui="page">
+        <div ui="grid_container" v-if="render_flg">
+            <div ui="large_weather" weather="weather" v-for="weather in weather_l">
+                <div class="nes-container with-title">
+                    <p class="title">{{ weather | weather_to_location }}</p>
+        
+                    <div ui="weather_info_now" v-if="is_now_loaded(weather)">
+                        <div ui="image">
+                            <img :src="weather.now.weather[0].icon | iconid_to_url"/>
+                        </div>
+                        <div>
+                            <h2>
+                                {{ weather.now.weather[0].description | nodot_kanji_to_kana }}
+                            </h2>
+                            <dl ui="sub_info">
+                                <dt>きおん:</dt>
+                                <dd>{{ weather.now.main.temp }} {{ temp_unit }}</dd>
+                                <dt>たいかん:</dt>
+                                <dd>{{ weather.now.main.feels_like }} {{ temp_unit }}</dd>
+                                <dt>しつど:</dt>
+                                <dd>{{ weather.now.main.humidity }} %</dd>
+                                <template v-if="weather.now.wind">
+                                    <dt>かぜ:</dt>
+                                    <dd>
+                                        {{ weather.now.wind.deg | deg_to_dir }}
+                                        {{ weather.now.wind.speed }} m/s
+                                    </dd>
+                                </template>
+                                <template v-if="weather.now.rain">
+                                    <dt>こうすい:</dt>
+                                    <dd>{{ weather.now.rain["1h"] }} mm/h</dd>    
+                                </template>
+                                <template v-if="weather.now.snow">
+                                    <dt>せきせつ:</dt>
+                                    <dd>{{ weather.now.snow["1h"] }} mm/h</dd>
+                                </template>
+                                <dt>きあつ:</dt>
+                                <dd>{{ weather.now.main.pressure }} hpa</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div v-else>Loading...</div>
+        
+                    <div ui="weather_info_5days" v-if="is_vdays_loaded(weather)">
+                        <h3>今日のてんき</h3>
+                        <div ui="todays">
+                            <div ui="today" v-for="d in get_todays_weather(weather)">
+                                <img :src="d.weather.icon | iconid_to_url"/>
+                                <p>{{ d.dt | date_to_time }}</p>
+                            </div>
+                        </div>
+                        <h3>この先のてんき</h3>
+                        <div ui="afters">
+                            <div ui="after" v-for="d in get_after_weather(weather)">
+                                <img :src="d.weather.icon | iconid_to_url"/>
+                                <p>{{ d.dt | date_to_date }}</p>
+                            </div>    
+                        </div>
+                    </div>
+                    <div v-else>Loading...</div>
+                </div>    
+            </div>
+        </div>
+
+        <div ui="grid_container" v-if="render_flg">
+            <div ui="small_weather" v-for="weather in weather_s">
+                <div class="nes-container with-title">
+                    <p class="title">{{ weather | weather_to_location }}</p>
+                    <div ui="weather_info_small" v-if="weather.now.cod">
+                        <img :src="weather.now.weather[0].icon | iconid_to_url"/>
+                        {{ weather.now.weather[0].description | nodot_kanji_to_kana }}
+                        {{ weather.now.main.temp }} {{ temp_unit }}
+                    </div>
+                    <div v-else>Loading...</div>
+                </div>                    
+            </div>
+        </div>
+
+        <div ui="panel">
+            <p @click="jump_to_setting">▶せってい</p>
+            <!-- <p @click="jump_to_credits">クレジット</p> -->
+        </div>
+
+    </div>
+</script>
+
+<script type="text/x-template" id="SETTING_PAGE_TEMPLATE">
+    <div ui="page">
+        <div class="nes-container with-title">
+            <p class="title">OpenWeather</p>
+            <div class="nes-field">
+                <label>API Key: <input v-model="form.apikey" type="text" class="nes-input"></label>
+                <p v-if="!form.apikey" style="text-align: right;">
+                    <span>*</span>
+                    <a href="https://openweathermap.org/" target="_blank">
+                        Get the  API Key
+                    </a>
+                </p>
+            </div>
+            <div class="">
+                <label>Language: </label>
+                <label><input v-model="form.lang" type="radio" class="nes-radio" name="language" value="ja" /><span>Ja</span></label>
+                <label><input v-model="form.lang" type="radio" class="nes-radio" name="language" value="en" /><span>En</span></label>
+            </div>
+            <div class="">
+                <label>Country: </label>
+                <label><input v-model="form.country" type="radio" class="nes-radio" name="country" value="jp" /><span>Japan</span></label>
+                <label><input v-model="form.country" type="radio" class="nes-radio" name="country" value="us" /><span>US</span></label>
+            </div>
+            <div class="">
+                <label>Units: </label>
+                <label><input v-model="form.units" type="radio" class="nes-radio" name="units" value="C"/><span>セシ</span></label>
+                <label><input v-model="form.units" type="radio" class="nes-radio" name="units" value="F" /><span>カシ</span></label>
+                <label><input v-model="form.units" type="radio" class="nes-radio" name="units" value="K" /><span>ケルビン</span></label>
+            </div>
+        </div>
+        <br />
+        <div class="nes-container with-title">
+            <p class="title">Locations</p>
+            <div class="nes-field">
+                <label>Zip Code: 
+                    <div style="display: grid; grid-template-columns: 1fr 48px;">
+                        <input type="text" pattern="^\d{3}-?\d{4}$" class="nes-input" v-model="form.zipcode">
+                        <button type="button" class="nes-btn is-primary" style="float: right" @click="on_add">＋</button>
+                    </div>
+                </label>
+                <p style="text-align: center;">---- おおきく ひょうじ ----</p>
+                <locate_row v-for="zipcode in form.points_l"
+                    :key="zipcode" :zipcode="zipcode"
+                    @delete="on_delete_l(zipcode)"
+                    @upto="on_upto_l(zipcode)"
+                    @downto="on_downto_l(zipcode)"
+                ></locate_row>
+                <p style="text-align: center;">---- ちいさく ひょうじ ----</p>
+                <locate_row v-for="zipcode in form.points_s"
+                    :key="zipcode" :zipcode="zipcode"
+                    @delete="on_delete_s(zipcode)"
+                    @upto="on_upto_s(zipcode)"
+                    @downto="on_downto_s(zipcode)"
+                ></locate_row>
+                <p></p>
+                <p>【ちゅうい】Zip Code は Country ない に あるもの</p>
+            </div>
+        </div>
+        <br />
+        <p style="text-align: center;">
+            <button type="button" class="nes-btn" style="padding: 6px 24px;" @click="on_ok">  OK  </button>
+        </p>
+
+    </div>
+</script>
+
+
+<!--
+    App
+ -->
+<div id="app">
+
+    <div ui="header">
+        <h1 style="margin: auto 1rem;">Bit Weather</h1>
+    </div>
+
+    <section id="pages" class="_section">
+        <div class="container is-fluid">
+            <transition name="fade">
+                <router-view
+                    @back_page="page_back"
+                    @jump_to_setting="jump_to_setting"
+                ></router-view>    
+            </transition>
+        </div>
+    </section>
+
+
+    <p style="text-align: center;">
+        <a href="https://weather.yahoo.co.jp/weather/zoomradar/" target="_blank">
+            あまぐも
+        </a> | <a href="https://tenki.jp/bousai/typhoon/" target="_blank">
+            たいふう
+        </a> | <a href="https://ekitan.com/transit/train-status" target="_blank">
+            でんしゃ
+        </a> 
+    </p>
+    <p style="text-align: center;">(c) 2020 ipe</p>
+
+    <loader :visible="loader_visible"></loader>
+    <modal></modal>
+
+
+</div>
+
+ <!--
+    Include
+ -->
+ <div>
+
+    <script>
+        /**
+         * Consts
+         */
+        const URL_OPEN_WEATHER_NOW = "http://api.openweathermap.org/data/2.5/weather";
+        const URL_OPEN_WEATHER_5DAYS = "http://api.openweathermap.org/data/2.5/forecast";
+        const STORAGEKEY_PLACESL = "STORAGEKEY_PLACESL";
+        const STORAGEKEY_PLACESS = "STORAGEKEY_PLACESS";
+        const STORAGEKEY_SETTING = "STORAGEKEY_SETTING";
+        const TYPE_WEATHER_NOW = "TYPE_WEATHER_NOW";
+        const TYPE_WEATHER_5DAYS = "TYPE_WEATHER_5DAYS";
+        const TYPE_POINTNAME = "TYPE_POINTNAME";
+        const VALUE_UNITS = {'C': 'metric', 'F': 'imperial', 'K': ''};
+        const VALUE_LANG = {'JA': 'ja', 'EN': 'en'};
+        const VALUE_COUNTRY = {'JA': 'jp', 'EN': 'us'};
+        const LOADING_INTERVAL_L_MSEC = 2 * 1000;
+        const LOADING_INTERVAL_S_MSEC = 1 * 1000;
+    </script>
+
+    <script src="js/dateformat.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" integrity="sha512-VGxuOMLdTe8EmBucQ5vYNoYDTGijqUsStF6eM7P3vA/cM1pqOwSBv/uxw94PhhJJn795NlOeKBkECQZ1gIzp6A==" crossorigin="anonymous"></script>
+    <script src="js/store.js"></script>
+    <script src="js/api.js"></script>
+
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.3.4/dist/vue-router.js"></script>
+    <script src="js/vue-filter.js"></script>
+    <!-- <script src="js/components/v-scroll.js"></script> -->
+    <script src="js/components/loader.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/locate_row.js"></script>
+    <script src="js/pages/vue-page-list.js"></script>
+    <script src="js/pages/vue-page-setting.js"></script>
+
+    <script src="js/app.js"></script>
+
+    
+</div>
+</body>
+</html>
