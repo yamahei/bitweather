@@ -107,12 +107,13 @@ html, body, pre, code, kbd, samp {
 *[ui='weather_info_now'] > *[ui='image']{
     float: left;
     max-width: 100%;
-    min-width: 50%;
+    min-width: 40%;
+    margin: -20px;
+    overflow: hidden;
 }
 *[ui='weather_info_now'] > *[ui='image'] img{
     width: 100%;
     object-fit: contain;
-    margin-top: -60px;
     z-index: -1;
 }
 
