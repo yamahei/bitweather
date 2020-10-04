@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bit Weather</title>
     <link rel="icon" type="image/svg+xml" href="img/logo.png" />
-    <!-- <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> -->
-    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    <link href="css/nes.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -37,7 +36,6 @@
         <div ui="grid_container" v-if="render_flg">
             <div ui="large_weather" weather="weather" v-for="weather in weather_l">
                 <div class="_nes-container with-title">
-                    <!-- <p class="title">{{ weather | weather_to_location }}</p> -->
                     <h1>[{{ weather | weather_to_location }}]</h1>
 
                     <div ui="weather_info_now" v-if="is_now_loaded(weather)">
@@ -192,7 +190,7 @@
                     @downto="on_downto_s(zipcode)"
                 ></locate_row>
                 <p></p>
-                <p>【ちゅうい】Zip Code は Country ない に あるもの</p>
+                <p>【ちゅうい】Zip Code は Country こくない の もの</p>
             </div>
         </div>
         <br />
@@ -211,6 +209,7 @@
 
     <div ui="header">
         <h1 style="margin: auto 1rem;">Bit Weather</h1>
+        <img src="img/logo.png" />
     </div>
 
     <section id="pages" class="_section">
@@ -268,14 +267,13 @@
 
     <script src="js/dateformat.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" integrity="sha512-VGxuOMLdTe8EmBucQ5vYNoYDTGijqUsStF6eM7P3vA/cM1pqOwSBv/uxw94PhhJJn795NlOeKBkECQZ1gIzp6A==" crossorigin="anonymous"></script>
+    <script src="js/axios.0.19.2.js"></script>
     <script src="js/store.js"></script>
     <script src="js/api.js"></script>
 
-    <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
-    <script src="https://unpkg.com/vue-router@3.3.4/dist/vue-router.js"></script>
+    <script src="js/vue.2.6.11.js"></script>
+    <script src="js/vue-router.3.3.4.js"></script>
     <script src="js/vue-filter.js"></script>
-    <!-- <script src="js/components/v-scroll.js"></script> -->
     <script src="js/components/loader.js"></script>
     <script src="js/components/modal.js"></script>
     <script src="js/components/locate_row.js"></script>

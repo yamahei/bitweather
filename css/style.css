@@ -32,13 +32,18 @@ html, body, pre, code, kbd, samp {
     top: 0; left: 0; right: 0; */
     width: 100%;
     margin: 0;
-    padding: 4px;
+    display: grid;
+    grid-template-columns: 1fr 48px;
+}
+*[ui='header'] > img {
+    width: 48px;
+    object-fit: contain;   
 }
 
 
 *[ui='page']{
     margin: 0;
-    padding: 2rem;
+    padding: 2rem 5%;
     overflow-y: auto;
 }
 
