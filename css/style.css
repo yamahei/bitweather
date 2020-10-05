@@ -117,11 +117,11 @@ html, body, pre, code, kbd, samp {
 }
 
 *[ui='weather_info_now'] > *[ui='weather'] {
-    float: left;
+    float: right;
+    margin-right: 5%;
 }
 *[ui='weather_info_now'] > *[ui='weather'] > table {
     margin-left: auto;
-    margin-right: 5%;
 }
 *[ui='weather_info_now'] > *[ui='weather'] > table th {
     margin: 0; padding: 0;
