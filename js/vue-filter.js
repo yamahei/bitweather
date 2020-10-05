@@ -23,7 +23,7 @@
     });
 
     g.Vue.filter('iconid_to_url', function (id) {//weather.icon
-        return `http://openweathermap.org/img/wn/${id}.png`;        
+        return `https://openweathermap.org/img/wn/${id}.png`;        
     });
     g.Vue.filter('deg_to_dir', function (deg) {//wind.deg
         const index = Math.round(Math.round(deg * 1 + 0.4) / 22.5);

@@ -155,6 +155,8 @@ const list_conf = g.list_conf = {
                 const dis = (today.getDate() == item.dt.getDate());
                 return yis && mis && dis;
             });
+            //最大6個まで表示できる
+            while(list.length > 6){ list.shift(); }
             return list;
         },
         get_after_weather: function(vdays){
@@ -170,6 +172,8 @@ const list_conf = g.list_conf = {
                 now = item.dt.getDate();
                 return last != now;
             });
+            //最大5個まで表示できる
+            while(list.length > 5){ list.shift(); }
             return list;
         },
         set_loaded_data: function(zipcode, key, data){
