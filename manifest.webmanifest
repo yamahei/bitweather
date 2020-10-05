@@ -6,9 +6,8 @@
     "display": "fullscreen",
     "scope": "/",
     "start_url": "index.html",
-    "icons": [{
-        "src": "img/logo.png",
-        "sizes": "20x20",
-        "type": "image/png"
-    }]
+    "icons": [
+        { "src": "img/logo.png", "sizes": "20x20", "type": "image/png" },
+        { "src": "img/logo144x144.png", "sizes": "144x144", "type": "image/png" }
+    ]
 }
