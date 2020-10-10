@@ -34,12 +34,12 @@ const list_conf = g.list_conf = {
     mounted: function(){
         if(!this.setting.apikey){
             g.Modal.alert({
-                message: "API Keyが ひつよう です",
+                message: "API Keyを てにいれよ！",
                 on_ok: this.jump_to_setting,
             });
         }else  if(this.points_l.length <= 0 && this.points_s.length <= 0 ){
             g.Modal.alert({
-                message: "ばしょ が ありません",
+                message: "ばしょを とうろく するのだ！",
                 on_ok: this.jump_to_setting,
             });
         }else{

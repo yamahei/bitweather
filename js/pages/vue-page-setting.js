@@ -41,9 +41,10 @@ const setting_conf = g.setting_conf = {
         on_add: function(){
             const zipcode = this.form.zipcode;
             if(zipcode === ""){
-                g.Modal.alert({ message: "Zip Codeが ありません" });
+                //ignore
+                //g.Modal.alert({ message: "Zip Codeが ありません" });
             }else if(!zipcode.match(/^\d{3}-?\d{4}$/)){
-                g.Modal.alert({ message: "けいしきは 000-0000 です" });
+                g.Modal.alert({ message: "けいしきは 000-0000 じゃ" });
             }else{
                 this.form.points_l.unshift(zipcode.replace(/^(\d{3})-?(\d{4})$/, "$1-$2"));
                 this.form.zipcode = "";
@@ -94,7 +95,7 @@ const setting_conf = g.setting_conf = {
 
         on_ok: function(){
             if(!this.setting.apikey && !this.form.apikey){
-                g.Modal.alert({ message: "API Keyが ありません" });
+                g.Modal.alert({ message: "API Keyを てにいれよ！" });
             }else{
                 this.setting.apikey = this.form.apikey;
                 this.setting.lang = this.form.lang;
